@@ -4,6 +4,7 @@
 cmake_minimum_required (VERSION 3.8)
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_library (CommonRPiLibrary "CommonRPiLibrary.cpp" "CommonRPiLibrary.h" "SPI.h" "SPI.cpp" "USB.h" "USB.cpp")
+add_library (CommonRPiLibrary SHARED "CommonRPiLibrary.cpp" "CommonRPiLibrary.h" "SPI.h" "SPI.cpp" "USB.h" "USB.cpp")
 
 # TODO: Добавьте тесты и целевые объекты, если это необходимо.
+set_target_properties(CommonRPiLibrary PROPERTIES VERSION ${PROJECT_VERSION})
