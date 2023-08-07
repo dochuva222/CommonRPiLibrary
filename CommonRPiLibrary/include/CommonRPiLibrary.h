@@ -1,7 +1,8 @@
 ﻿// CommonRPiLibrary.h : включаемый файл для стандартных системных включаемых файлов
 // или включаемые файлы для конкретного проекта.
 
-#pragma once
+#ifndef COMMON_RPI_LIBRARY_H
+#define COMMON_RPI_LIBRARY_H
 
 #include <iostream>
 #include "SPI.h"
@@ -11,10 +12,12 @@
 
 using namespace std;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 class CommonRPiLibrary
 {
-	//Constructor / Destructor
-	//Constructor - Sets up the SPI Port and opens it. Singleton due to HW.
 public:
 	CommonRPiLibrary();
 	~CommonRPiLibrary();
@@ -30,3 +33,9 @@ private:
 	PiSPI* spi;
 	PiSerial* usb;
 };
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif // COMMON_RPI_LIBRARY_H

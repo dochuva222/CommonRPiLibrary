@@ -1,12 +1,10 @@
-﻿# CMakeList.txt: проект CMake для CommonRPiLibrary; включите исходный код и определения,
-# укажите здесь логику для конкретного проекта.
-#
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required (VERSION 3.8)
 
 project (CommonRPiLibrary VERSION 1.0.1)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_COMPILER g++)
 
 # Add your source files here
 set(SOURCES

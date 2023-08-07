@@ -10,6 +10,10 @@
 
 mutex PiSPI::mutexSPI[2];
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 PiSPI::PiSPI(uint8_t channel, int speed, int mode, uint8_t bitsperword)
 {
 	char device[16] = "";
@@ -213,6 +217,10 @@ int PiSPI::GetMode()
 
 	return this->_iMode = mode;
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 /*
 Copyright (c) 2018 Tobias Eiseler

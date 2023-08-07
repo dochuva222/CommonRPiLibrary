@@ -3,6 +3,10 @@
 
 #include "CommonRPiLibrary.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 CommonRPiLibrary::CommonRPiLibrary()
 {
 	
@@ -34,3 +38,7 @@ void CommonRPiLibrary::ReadWriteUSB(uint8_t* data, uint8_t len)
 	usb->Send(data, len);
 	usb->Receive(data, len);
 }
+
+#ifdef __cplusplus
+}
+#endif

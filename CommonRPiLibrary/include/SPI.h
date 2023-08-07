@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef __PiSPI_H_
-#define __PiSPI_H_
+#ifndef SPI_H
+#define SPI_H
 
 // Includes
 #include <mutex>
@@ -11,7 +11,9 @@
 //Namespace STD to avoid std::
 using namespace std;
 
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 //PiSPI class
 //Class for low level SPI communicationn
@@ -53,7 +55,11 @@ private:
 
 };
 
-#endif //__PiSPI_H_
+#ifdef __cplusplus
+}
+#endif
+
+#endif //SPI_H
 
 /*
 Copyright (c) 2018 Tobias Eiseler

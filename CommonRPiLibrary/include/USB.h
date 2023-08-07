@@ -1,16 +1,17 @@
 #pragma once
 
-#ifndef SERIAL
-#define SERIAL
+#ifndef USB_H
+#define USB_H
 
 #include <string>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 class PiSerial
 {
-
 public:
-
 	int handle;
 	std::string  deviceName;
 	int baud;
@@ -28,4 +29,8 @@ public:
 	bool NumberByteRcv(int& bytelen);
 };
 
+#ifdef __cplusplus
+}
 #endif
+
+#endif // USB_H
