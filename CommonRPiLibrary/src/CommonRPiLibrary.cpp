@@ -13,15 +13,16 @@ void Create()
 	}
 }
 
-
-void RP_ReadWriteSPI(unsigned char buf[], unsigned int cnt)
+unsigned char* RP_ReadWriteSPI(unsigned char* buf, unsigned int cnt)
 {
 	Create();
 	lib->ReadWriteSPI(buf, cnt);
+	return buf;
 }
 
-void RP_ReadWriteUSB(unsigned char buf[], unsigned int cnt)
+unsigned char* RP_ReadWriteUSB(unsigned char* buf, unsigned int cnt)
 {
 	Create();
 	lib->ReadWriteUSB(buf, cnt);
+	return buf;
 }

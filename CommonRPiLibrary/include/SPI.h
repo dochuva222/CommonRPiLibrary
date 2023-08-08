@@ -38,7 +38,7 @@ public:
 
 	//Fields
 public:
-	static std::mutex mutexSPI[2];
+	static std::mutex mutexSPI[3];
 
 private:
 	uint8_t  _u8Channel;

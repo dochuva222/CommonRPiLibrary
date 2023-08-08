@@ -6,8 +6,8 @@
 
 extern "C"
 {
-	void RP_ReadWriteSPI(unsigned char[], unsigned int);
-	void RP_ReadWriteUSB(unsigned char[], unsigned int);
+	unsigned char* RP_ReadWriteSPI(unsigned char*, unsigned int);
+	unsigned char* RP_ReadWriteUSB(unsigned char*, unsigned int);
 }
 
 #endif // COMMON_RPI_LIBRARY_H

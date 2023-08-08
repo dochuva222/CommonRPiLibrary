@@ -8,7 +8,7 @@
 #include <linux/spi/spidev.h>
 #include <unistd.h>
 
-mutex PiSPI::mutexSPI[2];
+mutex PiSPI::mutexSPI[3];
 
 PiSPI::PiSPI(uint8_t channel, int speed, int mode, uint8_t bitsperword)
 {
