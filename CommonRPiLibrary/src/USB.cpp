@@ -9,10 +9,6 @@ using namespace std;
 
 #include "USB.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 PiSerial::PiSerial(string deviceName, int baud)
 {
     handle = -1;
@@ -110,7 +106,3 @@ bool PiSerial::NumberByteRcv(int& bytelen)
     ioctl(handle, FIONREAD, &bytelen);
     return true;
 }
-
-#ifdef __cplusplus
-}
-#endif
