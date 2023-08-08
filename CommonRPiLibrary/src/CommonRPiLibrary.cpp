@@ -1,5 +1,5 @@
 ﻿#include "CommonRPiLibrary.h"
-#include "CCommonRPiLibrary"
+#include "CCommonRPiLibrary.h"
 
 CCommonRPiLibrary* lib = 0;
 
