@@ -1,13 +1,7 @@
-#pragma once
-
 #ifndef USB_H
 #define USB_H
 
 #include <string>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 class PiSerial
 {
@@ -29,8 +23,5 @@ public:
 	bool NumberByteRcv(int& bytelen);
 };
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif // USB_H

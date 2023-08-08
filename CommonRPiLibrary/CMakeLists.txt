@@ -8,7 +8,7 @@ set(CMAKE_CXX_COMPILER g++)
 
 # Add your source files here
 set(SOURCES
-    src/CommonRPiLibrary.cpp
+    "src/CCommonRPiLibrary.cpp"
     src/SPI.cpp
     src/USB.cpp
     # Add more source files as needed

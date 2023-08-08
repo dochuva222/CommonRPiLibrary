@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef SPI_H
 #define SPI_H
 
@@ -10,10 +8,6 @@
 
 //Namespace STD to avoid std::
 using namespace std;
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 //PiSPI class
 //Class for low level SPI communicationn
@@ -54,10 +48,6 @@ private:
 	int _iFD;
 
 };
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif //SPI_H
 

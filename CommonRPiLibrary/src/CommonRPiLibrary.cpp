@@ -1,44 +1,27 @@
-﻿// CommonRPiLibrary.cpp: определяет точку входа для приложения.
-//
+﻿#include "CommonRPiLibrary.h"
+#include "CCommonRPiLibrary"
 
-#include "CommonRPiLibrary.h"
+CCommonRPiLibrary* lib = 0;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-CommonRPiLibrary::CommonRPiLibrary()
+void Create()
 {
-	
+	if (lib == 0)
+	{
+		lib = new CCommonRPiLibrary();
+		lib->StartSPI();
+		lib->StartUSB();
+	}
 }
 
-CommonRPiLibrary::~CommonRPiLibrary()
+
+void RP_ReadWriteSPI(unsigned char buf[], unsigned int cnt)
 {
-	spi->~PiSPI();
-	usb->~PiSerial();
+	Create();
+	lib->ReadWriteSPI(buf, cnt);
 }
 
-void CommonRPiLibrary::StartSPI()
+void RP_ReadWriteUSB(unsigned char buf[], unsigned int cnt)
 {
-	spi = new PiSPI(2, 1000000, 0);
+	Create();
+	lib->ReadWriteUSB(buf, cnt);
 }
-
-void CommonRPiLibrary::StartUSB()
-{
-	usb = new PiSerial("/dev/ttyACM0", 115200);
-}
-
-void CommonRPiLibrary::ReadWriteSPI(uint8_t* data, uint8_t len)
-{
-	spi->SyncReadWrite(data, len);
-}
-
-void CommonRPiLibrary::ReadWriteUSB(uint8_t* data, uint8_t len)
-{
-	usb->Send(data, len);
-	usb->Receive(data, len);
-}
-
-#ifdef __cplusplus
-}
-#endif
