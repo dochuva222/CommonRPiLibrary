@@ -2,13 +2,12 @@
 #include <stdlib.h>
 #include <jni.h>
 
-extern "C"
-{
+
 static const char *JNIT_CLASS = "JavaWrapper";
 
 static jbyteArray Java_RP_ReadWriteSPI(JNIEnv *env, jobject obj, jbyteArray data, jint length)
 {
-	jbyte *dataArray = env->GetByteArrayElements(data, NULL);
+	jbyte *dataArray = (*env)->GetByteArrayElements(data, NULL);
 	if (dataArray == NULL)
 	{
 		return NULL;
@@ -17,31 +16,31 @@ static jbyteArray Java_RP_ReadWriteSPI(JNIEnv *env, jobject obj, jbyteArray data
 	unsigned char *resultArray = RP_ReadWriteSPI((unsigned char *)dataArray, (unsigned int)length);
 	// (*env)-ReleaseByteArrayElements(env, data, dataArray, 0);
 
-	jbyteArray resultByteArray = env->NewByteArray(length);
+	jbyteArray resultByteArray = (*env)->NewByteArray(length);
 	if (resultByteArray != NULL)
 	{
-		env->SetByteArrayRegion(resultByteArray, 0, length, (jbyte *)resultArray);
+		(*env)->SetByteArrayRegion(resultByteArray, 0, length, (jbyte *)resultArray);
 	}
 	return resultByteArray;
 }
 
 static jbyteArray Java_RP_ReadWriteUSB(JNIEnv *env, jobject obj, jbyteArray data, jint length)
 {
-        jbyte *dataArray = env->GetByteArrayElements(data, NULL);
-        if (dataArray == NULL) 
-        {
-                return NULL;
-        }
+    jbyte *dataArray = (*env)->GetByteArrayElements(data, NULL);
+    if (dataArray == NULL) 
+    {
+            return NULL;
+    }
 
-        unsigned char *resultArray = RP_ReadWriteUSB((unsigned char *)dataArray, (unsigned int)length);
-        // (*env)-ReleaseByteArrayElements(env, data, dataArray, 0);
+    unsigned char *resultArray = RP_ReadWriteUSB((unsigned char *)dataArray, (unsigned int)length);
+    // (*env)-ReleaseByteArrayElements(env, data, dataArray, 0);
 
-        jbyteArray resultByteArray = env->NewByteArray(length);
-        if (resultByteArray != NULL)
-        {
-                env->SetByteArrayRegion(resultByteArray, 0, length, (jbyte *)resultArray);
-        }
-        return resultByteArray;
+    jbyteArray resultByteArray = (*env)->NewByteArray(length);
+    if (resultByteArray != NULL)
+    {
+		(*env)->SetByteArrayRegion(resultByteArray, 0, length, (jbyte *)resultArray);
+    }
+    return resultByteArray;
 }
 
 static JNINativeMethod funcs[] = {
@@ -87,4 +86,4 @@ JNIEXPORT void JNICALL JNI_OnUnload(JavaVM *vm, void *reserved)
 
 	(*env)->UnregisterNatives(env, cls);
 }
-}
+

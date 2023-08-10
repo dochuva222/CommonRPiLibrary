@@ -16,7 +16,7 @@ set(SOURCES
     src/SPI.c
     src/USB.c
     # Add more source files as needed
-    src/CommonRPiLibraryJavaWrapper.cpp
+    src/CommonRPiLibraryJavaWrapper.c
 )
 
 # Add header files directory
