@@ -1,13 +1,14 @@
 #ifndef USB_H
 #define USB_H
 
-#include <string>
+#include <string.h>
+#include <stdbool.h>
+#include <stddef.h>
 
 int handle;
-std::string deviceName;
 int baud;
 
-void Init_PiSerial(std::string deviceName, int baud);
+bool Init_PiSerial(int baud);
 void Kill_PiSerial();
 
 bool PiSerial_Send(unsigned char* data, int len);

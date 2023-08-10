@@ -4,7 +4,7 @@ project (CommonRPiLibrary VERSION 1.0.1)
 
 find_package(Java REQUIRED)
 find_package(JNI REQUIRED)
-# include(UseJava)
+include(UseJava)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -21,11 +21,15 @@ set(SOURCES
 
 # Add header files directory
 include_directories(include)
-include_directories(${JAVA_INCLUDE_PATH})
-include_directories(${JAVA_INCLUDE_PATH}/linux)
+# include_directories(${JAVA_INCLUDE_PATH})
+# include_directories(${JAVA_INCLUDE_PATH}/linux)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${JNI_INCLUDE_DIRS})
 
 # Create a shared library from the sources
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
+
+target_link_libraries(${PROJECT_NAME} ${JAVA_JVM_LIBRARY})
 
 # Set library version
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})

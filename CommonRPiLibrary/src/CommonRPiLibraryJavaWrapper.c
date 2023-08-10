@@ -5,47 +5,79 @@
 
 static const char *JNIT_CLASS = "JavaWrapper";
 
-static jbyteArray Java_RP_ReadWriteSPI(JNIEnv *env, jobject obj, jbyteArray data, jint length)
+static jbyteArray Java_ReadWriteSPI(JNIEnv *env, jobject obj, jbyteArray data, jint length)
 {
-	jbyte *dataArray = (*env)->GetByteArrayElements(data, NULL);
+	jbyte *dataArray = (*env)->GetByteArrayElements(env, data, NULL);
 	if (dataArray == NULL)
 	{
 		return NULL;
 	}
 
-	unsigned char *resultArray = RP_ReadWriteSPI((unsigned char *)dataArray, (unsigned int)length);
+	unsigned char *resultArray = ReadWriteSPI((unsigned char *)dataArray, (unsigned int)length);
 	// (*env)-ReleaseByteArrayElements(env, data, dataArray, 0);
 
-	jbyteArray resultByteArray = (*env)->NewByteArray(length);
+	jbyteArray resultByteArray = (*env)->NewByteArray(env, length);
 	if (resultByteArray != NULL)
 	{
-		(*env)->SetByteArrayRegion(resultByteArray, 0, length, (jbyte *)resultArray);
+		(*env)->SetByteArrayRegion(env, resultByteArray, 0, length, (jbyte *)resultArray);
 	}
 	return resultByteArray;
 }
 
-static jbyteArray Java_RP_ReadWriteUSB(JNIEnv *env, jobject obj, jbyteArray data, jint length)
+static jbyteArray Java_ReadWriteUSB(JNIEnv *env, jobject obj, jbyteArray data, jint length)
 {
-    jbyte *dataArray = (*env)->GetByteArrayElements(data, NULL);
+    jbyte *dataArray = (*env)->GetByteArrayElements(env, data, NULL);
     if (dataArray == NULL) 
     {
             return NULL;
     }
 
-    unsigned char *resultArray = RP_ReadWriteUSB((unsigned char *)dataArray, (unsigned int)length);
+    unsigned char *resultArray = ReadWriteUSB((unsigned char *)dataArray, (unsigned int)length);
     // (*env)-ReleaseByteArrayElements(env, data, dataArray, 0);
 
-    jbyteArray resultByteArray = (*env)->NewByteArray(length);
+    jbyteArray resultByteArray = (*env)->NewByteArray(env, length);
     if (resultByteArray != NULL)
     {
-		(*env)->SetByteArrayRegion(resultByteArray, 0, length, (jbyte *)resultArray);
+		(*env)->SetByteArrayRegion(env, resultByteArray, 0, length, (jbyte *)resultArray);
     }
     return resultByteArray;
 }
 
+static void Java_StartSPI(JNIEnv *env, jobject obj)
+{
+	(void)env;
+	(void)obj;
+	StartSPI();
+}
+
+static void Java_StartUSB(JNIEnv *env, jobject obj)
+{
+	(void)env;
+	(void)obj;
+	StartUSB();
+}
+
+static void Java_StopSPI(JNIEnv *env, jobject obj)
+{
+	(void)env;
+	(void)obj;
+	StopSPI();
+}
+
+static void Java_StopUSB(JNIEnv *env, jobject obj)
+{
+	(void)env;
+	(void)obj;
+	StopUSB();
+}
+
 static JNINativeMethod funcs[] = {
-	{ "Java_RP_ReadWriteSPI", "([BI)[B", (void *)&c_destroy },
-	{ "Java_RP_ReadWriteUSB", "([BI)[B", (void *)&c_add }
+	{ "Java_ReadWriteSPI", "([BI)[B", (void *)&Java_ReadWriteSPI },
+	{ "Java_ReadWriteUSB", "([BI)[B", (void *)&Java_ReadWriteUSB },
+	{ "Java_StartSPI", "()V", (void *)&Java_StartSPI },
+	{ "Java_StartUSB", "()V", (void *)&Java_StartUSB },
+	{ "Java_StopSPI", "()V", (void *)&Java_StopSPI },
+	{ "Java_StopUSB", "()V", (void *)&Java_StopUSB }
 };
 
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved)

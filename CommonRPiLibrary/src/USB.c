@@ -2,20 +2,18 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <fcntl.h>
-
-#include <iostream>
-using namespace std;
+#include <stdbool.h>
+#include <stddef.h>
 
 #include "USB.h"
 
-bool Init_PiSerial(string deviceName_, int baud_)
+bool Init_PiSerial(int baud_)
 {
     handle = -1;
     struct termios tio;
     struct termios2 tio2;
-    deviceName = deviceName_;
     baud = baud_;
-    handle = open(deviceName.c_str(), O_RDWR | O_NOCTTY /* | O_NONBLOCK */);
+    handle = open("/dev/ttyACM0", O_RDWR | O_NOCTTY /* | O_NONBLOCK */);
 
     if (handle < 0)
         return false;
@@ -48,15 +46,12 @@ void Kill_PiSerial()
 
 bool PiSerial_Send(unsigned char* data, int len)
 {
-    if (!IsOpen()) return false;
     int rlen = write(handle, data, len);
     return(rlen == len);
 }
 
 int PiSerial_Receive(unsigned char* data, int len)
 {
-    if (!IsOpen()) return -1;
-
     // this is a blocking receives
     int lenRCV = 0;
     while (lenRCV < len)

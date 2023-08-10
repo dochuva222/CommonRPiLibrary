@@ -20,16 +20,16 @@ void StartSPI()
 
 void StartUSB()
 {
-	Init_PiSerial("/dev/ttyACM0", 115200);
+	Init_PiSerial(115200);
 }
 
-unsigned char* ReadWriteSPI(unsigned char* data, uint8_t len)
+unsigned char* ReadWriteSPI(unsigned char* data, unsigned int len)
 {
 	PiSPI_SyncReadWrite(data, len);
 	return data;
 }
 
-unsigned char* ReadWriteUSB(unsigned char* data, uint8_t len)
+unsigned char* ReadWriteUSB(unsigned char* data, unsigned int len)
 {
 	PiSerial_Send(data, len);
 	PiSerial_Receive(data, len);

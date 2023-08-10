@@ -1,35 +1,21 @@
 #include "SPI.h"
-#include <cstdio>
 #include <string.h>
-#include <string>
-#include <ios>
 #include <sys/fcntl.h>
 #include <sys/ioctl.h>
 #include <linux/spi/spidev.h>
 #include <unistd.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <stdbool.h>
 
-mutex PiSPI::mutexSPI[3];
-
-void Init_PiSPI(uint8_t channel, int speed, int mode, uint8_t bitsperword)
+void Init_PiSPI(uint8_t channel, int speed, int mode)
 {
-	char device[16] = "";
 	_u8Channel = channel;
-	_iFD = 0;
+	_iFD = open("/dev/spidev1.2", O_RDWR);
 
-	snprintf(device, sizeof(device), "/dev/spidev1.%d", channel);
-	_iFD = open(device, O_RDWR);
-
-	if (_iFD < 0)
-		throw ios_base::failure(string("Could not open device!"));
-
-	if (!SetMode(mode))
-		throw ios_base::failure(string("Could set SPI mode!"));
-
-	if (!SetBitsPerWord(bitsperword))
-		throw ios_base::failure(string("Could set SPI bits per word!"));
-
-	if (!SetSpeed(speed))
-		throw ios_base::failure(string("Could set SPI speed!"));
+	PiSPI_SetMode(mode);
+	PiSPI_SetBitsPerWord(8);
+	PiSPI_SetSpeed(speed);
 }
 
 void Kill_PiSPI()
@@ -83,9 +69,7 @@ bool PiSPI_SyncReadWrite(uint8_t* pData, size_t length)
 	spi.len = length;
 	spi.cs_change = 0;
 
-	PiSPI::mutexSPI[_u8Channel].lock();
 	retVal = ioctl(_iFD, SPI_IOC_MESSAGE(1), &spi);
-	PiSPI::mutexSPI[_u8Channel].unlock();
 	return retVal != -1;
 }
 

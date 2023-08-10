@@ -2,22 +2,18 @@
 #define SPI_H
 
 // Includes
-#include <mutex>
-#include <cstdint>
+#include <stdint.h>
+#include <stdbool.h>
 #include <linux/spi/spidev.h>
+#include <stddef.h>
 
-//Namespace STD to avoid std::
-using namespace std;
-
-Init_PiSPI(uint8_t channel, int speed, int mode, uint8_t bitsperword = 8);
-Kill_PiSPI();
+void Init_PiSPI(uint8_t channel, int speed, int mode);
+void Kill_PiSPI();
 
 bool PiSPI_SetMode(int mode);
 bool PiSPI_SetBitsPerWord(uint8_t bpw);
 bool PiSPI_SetSpeed(int speed);
 bool PiSPI_SyncReadWrite(uint8_t* pData, size_t length);
-
-static std::mutex mutexSPI[3];
 
 uint8_t  _u8Channel;
 int _iSpeed;
