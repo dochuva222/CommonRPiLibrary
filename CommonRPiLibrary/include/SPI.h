@@ -9,45 +9,22 @@
 //Namespace STD to avoid std::
 using namespace std;
 
-//PiSPI class
-//Class for low level SPI communicationn
-class PiSPI
-{
-	//Constructor / Destructor
-	//Constructor - Sets up the SPI Port and opens it. Singleton due to HW.
-public:
-	PiSPI(uint8_t channel, int speed, int mode, uint8_t bitsperword = 8);
-	~PiSPI();
+Init_PiSPI(uint8_t channel, int speed, int mode, uint8_t bitsperword = 8);
+Kill_PiSPI();
 
-	//Methods
-public:
-	bool SetMode(int mode);
-	int GetMode();
+bool PiSPI_SetMode(int mode);
+bool PiSPI_SetBitsPerWord(uint8_t bpw);
+bool PiSPI_SetSpeed(int speed);
+bool PiSPI_SyncReadWrite(uint8_t* pData, size_t length);
 
-	bool SetBitsPerWord(uint8_t bpw);
-	uint8_t GetBitsPerWord();
+static std::mutex mutexSPI[3];
 
-	bool SetSpeed(int speed);
-	int GetSpeed();
+uint8_t  _u8Channel;
+int _iSpeed;
+uint8_t _iBitsPerWord;
+int _iMode;
+int _iFD;
 
-	bool Write(uint8_t reg, uint8_t* pData, size_t length);
-	bool Write(uint8_t* pData, size_t length);
-	bool Read(uint8_t reg, uint8_t* pData, size_t length);
-	bool Read(uint8_t* pData, size_t length);
-	bool SyncReadWrite(uint8_t* pData, size_t length);
-
-	//Fields
-public:
-	static std::mutex mutexSPI[3];
-
-private:
-	uint8_t  _u8Channel;
-	int _iSpeed;
-	uint8_t _iBitsPerWord;
-	int _iMode;
-	int _iFD;
-
-};
 
 #endif //SPI_H
 

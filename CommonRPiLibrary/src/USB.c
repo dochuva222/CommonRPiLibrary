@@ -1,41 +1,21 @@
-extern "C" {
 #include <asm/termbits.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <fcntl.h>
-}
+
 #include <iostream>
 using namespace std;
 
 #include "USB.h"
 
-PiSerial::PiSerial(string deviceName, int baud)
+bool Init_PiSerial(string deviceName_, int baud_)
 {
     handle = -1;
-    Open(deviceName, baud);
-}
-
-PiSerial::~PiSerial()
-{
-    if (handle >= 0)
-        Close();
-}
-
-void PiSerial::Close(void)
-{
-    if (handle >= 0)
-        close(handle);
-    handle = -1;
-}
-
-
-bool PiSerial::Open(string deviceName, int baud)
-{
     struct termios tio;
     struct termios2 tio2;
-    this->deviceName = deviceName;
-    this->baud = baud;
-    handle = open(this->deviceName.c_str(), O_RDWR | O_NOCTTY /* | O_NONBLOCK */);
+    deviceName = deviceName_;
+    baud = baud_;
+    handle = open(deviceName.c_str(), O_RDWR | O_NOCTTY /* | O_NONBLOCK */);
 
     if (handle < 0)
         return false;
@@ -59,34 +39,21 @@ bool PiSerial::Open(string deviceName, int baud)
     return true;
 }
 
-bool PiSerial::IsOpen(void)
+void Kill_PiSerial()
 {
-    return(handle >= 0);
+    if (handle >= 0)
+        close(handle);
+    handle = -1;
 }
 
-bool PiSerial::Send(unsigned char* data, int len)
+bool PiSerial_Send(unsigned char* data, int len)
 {
     if (!IsOpen()) return false;
     int rlen = write(handle, data, len);
     return(rlen == len);
 }
 
-bool PiSerial::Send(unsigned char value)
-{
-    if (!IsOpen()) return false;
-    int rlen = write(handle, &value, 1);
-    return(rlen == 1);
-}
-
-bool PiSerial::Send(std::string value)
-{
-    if (!IsOpen()) return false;
-    int rlen = write(handle, value.c_str(), value.size());
-    return(rlen == value.size());
-}
-
-
-int PiSerial::Receive(unsigned char* data, int len)
+int PiSerial_Receive(unsigned char* data, int len)
 {
     if (!IsOpen()) return -1;
 
@@ -98,11 +65,4 @@ int PiSerial::Receive(unsigned char* data, int len)
         lenRCV += rlen;
     }
     return lenRCV;
-}
-
-bool PiSerial::NumberByteRcv(int& bytelen)
-{
-    if (!IsOpen()) return false;
-    ioctl(handle, FIONREAD, &bytelen);
-    return true;
 }

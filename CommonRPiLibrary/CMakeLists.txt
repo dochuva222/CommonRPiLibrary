@@ -4,14 +4,13 @@ project (CommonRPiLibrary VERSION 1.0.1)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(CMAKE_CXX_COMPILER g++)
+set(CMAKE_CXX_COMPILER gcc)
 
 # Add your source files here
 set(SOURCES
-    src/CommonRPiLibrary.cpp
-    src/CCommonRPiLibrary.cpp
-    src/SPI.cpp
-    src/USB.cpp
+    src/CommonRPiLibrary.c
+    src/SPI.c
+    src/USB.c
     # Add more source files as needed
 )
 

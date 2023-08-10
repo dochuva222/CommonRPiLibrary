@@ -4,10 +4,12 @@
 #ifndef COMMON_RPI_LIBRARY_H
 #define COMMON_RPI_LIBRARY_H
 
-extern "C"
-{
-	unsigned char* RP_ReadWriteSPI(unsigned char*, unsigned int);
-	unsigned char* RP_ReadWriteUSB(unsigned char*, unsigned int);
-}
+void StopUSB();
+void StopSPI();
+void StartSPI();
+void StartUSB();
+
+unsigned char* ReadWriteSPI(unsigned char*, unsigned int);
+unsigned char* ReadWriteUSB(unsigned char*, unsigned int);
 
 #endif // COMMON_RPI_LIBRARY_H

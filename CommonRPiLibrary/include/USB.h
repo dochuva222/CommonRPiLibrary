@@ -3,25 +3,15 @@
 
 #include <string>
 
-class PiSerial
-{
-public:
-	int handle;
-	std::string  deviceName;
-	int baud;
+int handle;
+std::string deviceName;
+int baud;
 
-	PiSerial(std::string deviceName, int baud);
-	~PiSerial();
+void Init_PiSerial(std::string deviceName, int baud);
+void Kill_PiSerial();
 
-	bool Send(unsigned char* data, int len);
-	bool Send(unsigned char value);
-	bool Send(std::string value);
-	int Receive(unsigned char* data, int len);
-	bool IsOpen(void);
-	void Close(void);
-	bool Open(std::string deviceName, int baud);
-	bool NumberByteRcv(int& bytelen);
-};
+bool PiSerial_Send(unsigned char* data, int len);
+int PiSerial_Receive(unsigned char* data, int len);
 
 
 #endif // USB_H
