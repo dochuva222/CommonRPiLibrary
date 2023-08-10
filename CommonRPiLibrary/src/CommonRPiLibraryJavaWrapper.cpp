@@ -1,7 +1,12 @@
-#include "CommonRPiLibraryJavaWrapper.h"
 #include "CommonRPiLibrary.h"
+#include <stdlib.h>
+#include <jni.h>
 
-JNIEXPORT jbyteArray JNICALL Java_RP_ReadWriteSPI(JNIEnv *env, jobject obj, jbyteArray data, jint length)
+extern "C"
+{
+static const char *JNIT_CLASS = "JavaWrapper";
+
+static jbyteArray Java_RP_ReadWriteSPI(JNIEnv *env, jobject obj, jbyteArray data, jint length)
 {
 	jbyte *dataArray = env->GetByteArrayElements(data, NULL);
 	if (dataArray == NULL)
@@ -20,7 +25,7 @@ JNIEXPORT jbyteArray JNICALL Java_RP_ReadWriteSPI(JNIEnv *env, jobject obj, jbyt
 	return resultByteArray;
 }
 
-JNIEXPORT jbyteArray JNICALL Java_RP_ReadWriteUSB(JNIEnv *env, jobject obj, jbyteArray data, jint length)
+static jbyteArray Java_RP_ReadWriteUSB(JNIEnv *env, jobject obj, jbyteArray data, jint length)
 {
         jbyte *dataArray = env->GetByteArrayElements(data, NULL);
         if (dataArray == NULL) 
@@ -39,4 +44,47 @@ JNIEXPORT jbyteArray JNICALL Java_RP_ReadWriteUSB(JNIEnv *env, jobject obj, jbyt
         return resultByteArray;
 }
 
+static JNINativeMethod funcs[] = {
+	{ "Java_RP_ReadWriteSPI", "([BI)[B", (void *)&c_destroy },
+	{ "Java_RP_ReadWriteUSB", "([BI)[B", (void *)&c_add }
+};
 
+JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved)
+{
+	JNIEnv *env;
+	jclass  cls;
+	jint    res;
+
+	(void)reserved;
+
+	if ((*vm)->GetEnv(vm, (void **)&env, JNI_VERSION_1_8) != JNI_OK)
+		return -1;
+
+	cls = (*env)->FindClass(env, JNIT_CLASS);
+	if (cls == NULL)
+		return -1;
+
+	res = (*env)->RegisterNatives(env, cls, funcs, sizeof(funcs)/sizeof(*funcs));
+	if (res != 0)
+		return -1;
+
+	return JNI_VERSION_1_8;
+}
+
+JNIEXPORT void JNICALL JNI_OnUnload(JavaVM *vm, void *reserved)
+{
+	JNIEnv *env;
+	jclass  cls;
+
+	(void)reserved;
+
+	if ((*vm)->GetEnv(vm, (void **)&env, JNI_VERSION_1_8) != JNI_OK)
+		return;
+
+	cls = (*env)->FindClass(env, JNIT_CLASS);
+	if (cls == NULL)
+		return;
+
+	(*env)->UnregisterNatives(env, cls);
+}
+}
