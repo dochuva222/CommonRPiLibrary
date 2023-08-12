@@ -31,6 +31,13 @@ add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} ${JAVA_JVM_LIBRARY})
 
+# JAVA
+file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/classes")
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND "${Java_JAVAC_EXECUTABLE}" -d classes ${CMAKE_CURRENT_SOURCE_DIR}/java/*.java
+    COMMAND "${Java_JAR_EXECUTABLE}" -cfM JavaNative.jar -C classes .)
+
 # Set library version
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 
@@ -44,3 +51,5 @@ install(DIRECTORY include/ DESTINATION include/${PROJECT_NAME})
 # Print information
 message(STATUS "Project Name: ${PROJECT_NAME}")
 message(STATUS "Project Version: ${PROJECT_VERSION}")
+message(STATUS "Project Source dir: ${CMAKE_CURRENT_SOURCE_DIR}")
+message(STATUS "Project Binary dir: ${CMAKE_CURRENT_BINARY_DIR}")
