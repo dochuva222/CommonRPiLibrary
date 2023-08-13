@@ -11,27 +11,25 @@ bool Init_PiSerial(int baud_)
 {
     handle = -1;
     struct termios tio;
-    struct termios2 tio2;
     baud = baud_;
-    handle = open("/dev/ttyACM0", O_RDWR | O_NOCTTY /* | O_NONBLOCK */);
+    handle = open("/dev/ttyACM0", O_RDWR | O_NOCTTY | O_NONBLOCK);
 
     if (handle < 0)
         return false;
     tio.c_cflag = CS8 | CLOCAL | CREAD;
-    tio.c_oflag = 0;
-    tio.c_lflag = 0;       //ICANON;
+    tio.c_oflag &= ~(OPOST | ONLCR | OCRNL);
+    tio.c_iflag &= ~(INLCR | IGNCR | ICRNL | IGNBRK | IUCLC | PARMRK);
+    tio.c_lflag &= ~(ICANON | ECHO | ECHOE | ECHOK | ECHONL | ISIG | IEXTEN | ECHOCTL | ECHOKE);
+
+    tio.c_cflag &= ~(CSTOPB); // stopbit one
+    tio.c_iflag &= ~(INPCK | ISTRIP);
+    tio.c_cflag &= ~(PARENB | PARODD | CMSPAR); // parity none
+    
     tio.c_cc[VMIN] = 0;
-    tio.c_cc[VTIME] = 1;     // time out every .1 sec
+    tio.c_cc[VTIME] = 0;
     ioctl(handle, TCSETS, &tio);
-
-    ioctl(handle, TCGETS2, &tio2);
-    tio2.c_cflag &= ~CBAUD;
-    tio2.c_cflag |= BOTHER;
-    tio2.c_ispeed = baud;
-    tio2.c_ospeed = baud;
-    ioctl(handle, TCSETS2, &tio2);
-
-    //   flush buffer
+    
+    // flush buffer
     ioctl(handle, TCFLSH, TCIOFLUSH);
 
     return true;
@@ -47,17 +45,18 @@ void Kill_PiSerial()
 bool PiSerial_Send(unsigned char* data, int len)
 {
     int rlen = write(handle, data, len);
+    ioctl(handle, TCFLSH, TCOFLUSH);
     return(rlen == len);
 }
 
 int PiSerial_Receive(unsigned char* data, int len)
 {
-    // this is a blocking receives
     int lenRCV = 0;
     while (lenRCV < len)
     {
         int rlen = read(handle, &data[lenRCV], len - lenRCV);
         lenRCV += rlen;
     }
+    ioctl(handle, TCFLSH, TCIFLUSH);
     return lenRCV;
 }
