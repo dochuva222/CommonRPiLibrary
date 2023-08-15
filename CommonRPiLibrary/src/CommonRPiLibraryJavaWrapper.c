@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <jni.h>
 
-static const char *JNIT_CLASS = "io/github/crackanddie/JavaWrapper";
+static const char *JNIT_CLASS = "io/github/crackanddie/jni/JavaWrapper";
 
 static jbyteArray Java_ReadWriteSPI(JNIEnv *env, jobject obj, jbyteArray data, jint length)
 {
