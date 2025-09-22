@@ -10,8 +10,8 @@
 
 void StopUSB();
 void StopSPI();
-void StartSPI();
-void StartUSB();
+void StartSPI(const char* path, int channel, int speed, int mode);
+void StartUSB(const char* path, int baud);
 
 unsigned char* ReadWriteSPI(unsigned char* data, unsigned int len);
 unsigned char* ReadWriteUSB(unsigned char* data, unsigned int len);

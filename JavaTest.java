@@ -4,13 +4,16 @@ import io.github.crackanddie.*;
 
 public class JavaTest
 {
+	static 
+	{
+		System.load("/home/pi/test_common_lib/CommonRPiLibrary/CommonRPiLibrary/build/libCommonRPiLibrary.so");
+	}
+
 	public static void main(String[] args)
 	{
-		System.out.println("Test");
-				
 		JavaWrapper jw = new JavaWrapper();
-		jw.StartSPI();
-		jw.StartUSB();
+		jw.StartSPI("/dev/spidev1.2", 2, 1000000, 0);
+		jw.StartUSB("/dev/ttyACM0", 115200);
 		
 		while (true)
 		{

@@ -5,8 +5,8 @@ import inspect
 # Load the shared library
 lib = ctypes.cdll.LoadLibrary('/home/pi/test_common_lib/CommonRPiLibrary/CommonRPiLibrary/build/libCommonRPiLibrary.so')  # Update the path as needed
 # Define argument types and return type for RP_ReadWriteSPI function
-lib.StartSPI()
-lib.StartUSB()
+lib.StartSPI.argtypes = [ctypes.c_char_p, ctypes.c_int, ctypes.c_int, ctypes.c_int]
+lib.StartUSB.argtypes = [ctypes.c_char_p, ctypes.c_int]
 lib.ReadWriteSPI.argtypes = [ctypes.POINTER(ctypes.c_ubyte), ctypes.c_uint]
 lib.ReadWriteSPI.restype = ctypes.POINTER(ctypes.c_ubyte)  # Set the return type to pointer
 lib.ReadWriteUSB.argtypes = [ctypes.POINTER(ctypes.c_ubyte), ctypes.c_uint]
@@ -14,7 +14,9 @@ lib.ReadWriteUSB.restype = ctypes.POINTER(ctypes.c_ubyte)  # Set the return type
 
 
 # Run the example
-if __name__ == '__main__':    
+if __name__ == '__main__':   
+    lib.StartSPI()
+    lib.StartUSB() 
     while True:
         # TEST SPI
         '''

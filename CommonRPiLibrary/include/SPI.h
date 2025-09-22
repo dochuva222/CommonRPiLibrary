@@ -7,7 +7,7 @@
 #include <linux/spi/spidev.h>
 #include <stddef.h>
 
-void Init_PiSPI(uint8_t channel, int speed, int mode);
+void Init_PiSPI(const char* path, uint8_t channel, int speed, int mode);
 void Kill_PiSPI();
 
 bool PiSPI_SetMode(int mode);
