@@ -37,3 +37,4 @@ bld/
 *.so*
 # Add this line
 out/
+/.vscode

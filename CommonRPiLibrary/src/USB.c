@@ -7,12 +7,12 @@
 
 #include "USB.h"
 
-bool Init_PiSerial(int baud_)
+bool Init_PiSerial(const char* path, int baud_)
 {
     handle = -1;
     struct termios tio;
     baud = baud_;
-    handle = open("/dev/ttyACM0", O_RDWR | O_NOCTTY | O_NONBLOCK);
+    handle = open(path, O_RDWR | O_NOCTTY | O_NONBLOCK);
 
     if (handle < 0)
         return false;

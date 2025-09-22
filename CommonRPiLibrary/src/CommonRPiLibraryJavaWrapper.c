@@ -28,7 +28,7 @@ static jbyteArray Java_ReadWriteUSB(JNIEnv *env, jobject obj, jbyteArray data, j
     jbyte *dataArray = (*env)->GetByteArrayElements(env, data, NULL);
     if (dataArray == NULL) 
     {
-            return NULL;
+		return NULL;
     }
 
     unsigned char *resultArray = ReadWriteUSB((unsigned char *)dataArray, (unsigned int)length);
@@ -42,18 +42,24 @@ static jbyteArray Java_ReadWriteUSB(JNIEnv *env, jobject obj, jbyteArray data, j
     return resultByteArray;
 }
 
-static void Java_StartSPI(JNIEnv *env, jobject obj)
+static void Java_StartSPI(JNIEnv *env, jobject obj, jstring path, jint channel, jint speed, jint mode)
 {
 	(void)env;
 	(void)obj;
-	StartSPI();
+
+	const char* nativeInputString = (*env)->GetStringUTFChars(path, 0);
+	StartSPI(nativeInputString, (int)channel, (int)speed, (int)mode);
+    (*env)->ReleaseStringUTFChars(path, nativeInputString); // Release the C-string
 }
 
-static void Java_StartUSB(JNIEnv *env, jobject obj)
+static void Java_StartUSB(JNIEnv *env, jobject obj, jbyteArray path, jint baud)
 {
 	(void)env;
 	(void)obj;
-	StartUSB();
+
+	const char* nativeInputString = (*env)->GetStringUTFChars(path, 0);
+	StartUSB(nativeInputString, (int)baud);
+	(*env)->ReleaseStringUTFChars(path, nativeInputString); // Release the C-string
 }
 
 static void Java_StopSPI(JNIEnv *env, jobject obj)

@@ -8,10 +8,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-void Init_PiSPI(uint8_t channel, int speed, int mode)
+void Init_PiSPI(const char* path, uint8_t channel, int speed, int mode)
 {
 	_u8Channel = channel;
-	_iFD = open("/dev/spidev1.2", O_RDWR);
+	_iFD = open(path, O_RDWR);
 
 	PiSPI_SetMode(mode);
 	PiSPI_SetBitsPerWord(8);
