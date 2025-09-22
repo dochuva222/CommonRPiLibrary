@@ -15,8 +15,8 @@ lib.ReadWriteUSB.restype = ctypes.POINTER(ctypes.c_ubyte)  # Set the return type
 
 # Run the example
 if __name__ == '__main__':   
-    lib.StartSPI()
-    lib.StartUSB() 
+    lib.StartSPI("/dev/spidev1.2", 2, 1000000, 0)
+    lib.StartUSB("/dev/ttyACM0", 115200) 
     while True:
         # TEST SPI
         '''
