@@ -15,11 +15,11 @@ bool PiSPI_SetBitsPerWord(uint8_t bpw);
 bool PiSPI_SetSpeed(int speed);
 bool PiSPI_SyncReadWrite(uint8_t* pData, size_t length);
 
-uint8_t  _u8Channel;
-int _iSpeed;
-uint8_t _iBitsPerWord;
-int _iMode;
-int _iFD;
+extern uint8_t _u8Channel;
+extern int _iSpeed;
+extern uint8_t _iBitsPerWord;
+extern int _iMode;
+extern int _iFD;
 
 
 #endif //SPI_H
