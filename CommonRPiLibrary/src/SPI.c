@@ -14,14 +14,20 @@ uint8_t _iBitsPerWord;
 int _iMode;
 int _iFD;
 
-void Init_PiSPI(const char* path, uint8_t channel, int speed, int mode)
+int Init_PiSPI(const char* path, uint8_t channel, int speed, int mode)
 {
 	_u8Channel = channel;
 	_iFD = open(path, O_RDWR);
+	if (_iFD < 0)
+	{
+		return 1; // error
+	}
 
 	PiSPI_SetMode(mode);
 	PiSPI_SetBitsPerWord(8);
 	PiSPI_SetSpeed(speed);
+
+	return 0;
 }
 
 void Kill_PiSPI()
