@@ -12,8 +12,12 @@ public class JavaTest
 	public static void main(String[] args)
 	{
 		JavaWrapper jw = new JavaWrapper();
-		jw.StartSPI("/dev/spidev1.2", 2, 1000000, 0);
-		jw.StartUSB("/dev/ttyACM0", 115200);
+		int spiResult = jw.StartSPI("/dev/spidev1.2", 2, 1000000, 0);
+		if (spiResult != 0)
+			System.out.println("Failed to start SPI");
+		int comResult = jw.StartUSB("/dev/ttyACM0", 115200);
+		if (comResult != 0)
+			System.out.println("Failed to start COM");
 		
 		while (true)
 		{

@@ -2,8 +2,8 @@ package io.github.crackanddie;
 
 public class JavaWrapper
 {
-	private static native void Java_StartSPI(String path, int channel, int speed, int mode);
-	private static native void Java_StartUSB(String path, int baud);
+	private static native int Java_StartSPI(String path, int channel, int speed, int mode);
+	private static native int Java_StartUSB(String path, int baud);
 	private static native void Java_StopSPI();
 	private static native void Java_StopUSB();
 	private static native byte[] Java_ReadWriteSPI(byte[] data, int len);
@@ -11,12 +11,12 @@ public class JavaWrapper
 	
 	public JavaWrapper(){}
 	
-	public void StartSPI(String path, int channel, int speed, int mode){
-		Java_StartSPI(path, channel, speed, mode);
+	public int StartSPI(String path, int channel, int speed, int mode){
+		return Java_StartSPI(path, channel, speed, mode);
 	}
 	
-	public void StartUSB(String path, int baud){
-		Java_StartUSB(path, baud);
+	public int StartUSB(String path, int baud){
+		return Java_StartUSB(path, baud);
 	}
 	
 	public byte[] ReadWriteSPI(byte[] data, int len){
