@@ -5,6 +5,8 @@
 #define COMMON_RPI_LIBRARY_H
 
 #include <stdint.h>
+#include "SPI.h"
+#include "USB.h"
 
 void StopUSB();
 void StopSPI();
