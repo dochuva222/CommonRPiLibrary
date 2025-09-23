@@ -7,6 +7,9 @@
 
 #include "USB.h"
 
+int handle;
+int baud;
+
 bool Init_PiSerial(const char* path, int baud_)
 {
     handle = -1;

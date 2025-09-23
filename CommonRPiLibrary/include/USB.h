@@ -5,8 +5,8 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-int handle;
-int baud;
+extern int handle;
+extern int baud;
 
 bool Init_PiSerial(const char* path, int baud);
 void Kill_PiSerial();

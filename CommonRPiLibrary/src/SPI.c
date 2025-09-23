@@ -8,6 +8,12 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+uint8_t _u8Channel;
+int _iSpeed;
+uint8_t _iBitsPerWord;
+int _iMode;
+int _iFD;
+
 void Init_PiSPI(const char* path, uint8_t channel, int speed, int mode)
 {
 	_u8Channel = channel;
