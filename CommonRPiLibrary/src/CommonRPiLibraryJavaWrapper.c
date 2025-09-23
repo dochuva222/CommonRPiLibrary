@@ -47,9 +47,9 @@ static void Java_StartSPI(JNIEnv *env, jobject obj, jstring path, jint channel, 
 	(void)env;
 	(void)obj;
 
-	const char* nativeInputString = (*env)->GetStringUTFChars(path, 0);
+	const char* nativeInputString = (*env)->GetStringUTFChars(env, path, 0);
 	StartSPI(nativeInputString, (int)channel, (int)speed, (int)mode);
-    (*env)->ReleaseStringUTFChars(path, nativeInputString); // Release the C-string
+    (*env)->ReleaseStringUTFChars(env, path, nativeInputString); // Release the C-string
 }
 
 static void Java_StartUSB(JNIEnv *env, jobject obj, jbyteArray path, jint baud)
@@ -57,9 +57,9 @@ static void Java_StartUSB(JNIEnv *env, jobject obj, jbyteArray path, jint baud)
 	(void)env;
 	(void)obj;
 
-	const char* nativeInputString = (*env)->GetStringUTFChars(path, 0);
+	const char* nativeInputString = (*env)->GetStringUTFChars(env, path, 0);
 	StartUSB(nativeInputString, (int)baud);
-	(*env)->ReleaseStringUTFChars(path, nativeInputString); // Release the C-string
+	(*env)->ReleaseStringUTFChars(env, path, nativeInputString); // Release the C-string
 }
 
 static void Java_StopSPI(JNIEnv *env, jobject obj)
