@@ -13,14 +13,14 @@ void StopSPI()
 	Kill_PiSPI();
 }
 
-void StartSPI(const char* path, int channel, int speed, int mode)
+int StartSPI(const char* path, int channel, int speed, int mode)
 {
-	Init_PiSPI(path, channel, speed, mode);
+	return Init_PiSPI(path, channel, speed, mode);
 }
 
-void StartUSB(const char* path, int baud)
+int StartUSB(const char* path, int baud)
 {
-	Init_PiSerial(path, baud);
+	return Init_PiSerial(path, baud);
 }
 
 unsigned char* ReadWriteSPI(unsigned char* data, unsigned int len)

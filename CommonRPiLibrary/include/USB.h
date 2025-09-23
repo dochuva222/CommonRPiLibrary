@@ -8,7 +8,7 @@
 extern int handle;
 extern int baud;
 
-bool Init_PiSerial(const char* path, int baud);
+int Init_PiSerial(const char* path, int baud);
 void Kill_PiSerial();
 
 bool PiSerial_Send(unsigned char* data, int len);

@@ -10,7 +10,7 @@
 int handle;
 int baud;
 
-bool Init_PiSerial(const char* path, int baud_)
+int Init_PiSerial(const char* path, int baud_)
 {
     handle = -1;
     struct termios tio;
@@ -18,7 +18,7 @@ bool Init_PiSerial(const char* path, int baud_)
     handle = open(path, O_RDWR | O_NOCTTY | O_NONBLOCK);
 
     if (handle < 0)
-        return false;
+        return 1; // error
     tio.c_cflag = CS8 | CLOCAL | CREAD;
     tio.c_oflag &= ~(OPOST | ONLCR | OCRNL);
     tio.c_iflag &= ~(INLCR | IGNCR | ICRNL | IGNBRK | IUCLC | PARMRK);
@@ -35,7 +35,7 @@ bool Init_PiSerial(const char* path, int baud_)
     // flush buffer
     ioctl(handle, TCFLSH, TCIOFLUSH);
 
-    return true;
+    return 0;
 }
 
 void Kill_PiSerial()
